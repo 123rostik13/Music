@@ -336,6 +336,7 @@ function setupNavigation() {
     const pageSections = document.querySelectorAll('.page-section');
     const pageTitle = document.getElementById('page-title');
     const searchContainer = document.querySelector('.search-container');
+    const playerContainer = document.querySelector('.player-container');
 
     if (navItems.length === 0) {
         console.warn('No navigation items found');
@@ -358,6 +359,19 @@ function setupNavigation() {
                     searchContainer.classList.remove('hidden');
                 } else {
                     searchContainer.classList.add('hidden');
+                }
+            }
+            
+            // Управление отображением плеера
+            if (playerContainer) {
+                if (targetSection === 'favorites' || targetSection === 'search') {
+                    // Скрываем плеер на вкладках "Избранное" и "Поиск", если музыка не играет
+                    if (!isPlaying) {
+                        playerContainer.style.display = 'none';
+                    }
+                } else {
+                    // Показываем плеер на других вкладках
+                    playerContainer.style.display = 'block';
                 }
             }
             
@@ -389,6 +403,11 @@ function setupNavigation() {
     const initialActiveSection = document.querySelector('.nav-item.active')?.dataset.section || 'home';
     if (initialActiveSection !== 'search' && searchContainer) {
         searchContainer.classList.add('hidden');
+    }
+    
+    // Скрываем плеер при первоначальной загрузке на вкладках "Избранное" и "Поиск"
+    if ((initialActiveSection === 'favorites' || initialActiveSection === 'search') && playerContainer && !isPlaying) {
+        playerContainer.style.display = 'none';
     }
 }
 
@@ -568,6 +587,8 @@ function loadTrack(index, autoplay = true) {
 
 // Воспроизведение/пауза
 function playTrack() {
+    const playerContainer = document.querySelector('.player-container');
+    
     if (audioPlayer.paused) {
         audioPlayer.play().catch(error => {
             console.error('Ошибка воспроизведения:', error);
@@ -577,10 +598,18 @@ function playTrack() {
         });
         isPlaying = true;
         playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        
+        // Показываем плеер при запуске песни
+        if (playerContainer) {
+            playerContainer.style.display = 'block';
+        }
     } else {
         audioPlayer.pause();
         isPlaying = false;
         playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+        
+        // НЕ скрываем плеер при паузе - пользователь может взаимодействовать с другими кнопками
+        // Плеер остается видимым для управления
     }
     updateActiveCard();
 }
@@ -635,6 +664,13 @@ function nextTrack() {
         }
     }
     loadTrack(nextIndex);
+    
+    // Показываем плеер при переключении трека
+    const playerContainer = document.querySelector('.player-container');
+    if (playerContainer) {
+        playerContainer.style.display = 'block';
+    }
+    
     playTrack();
 }
 
@@ -649,6 +685,13 @@ function prevTrack() {
         }
     }
     loadTrack(prevIndex);
+    
+    // Показываем плеер при переключении трека
+    const playerContainer = document.querySelector('.player-container');
+    if (playerContainer) {
+        playerContainer.style.display = 'block';
+    }
+    
     playTrack();
 }
 
