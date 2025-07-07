@@ -135,6 +135,9 @@ function initApp() {
         renderFavorites();
         setupEventListeners();
         
+        // Адаптация интерфейса под устройство
+        adaptInterfaceForDevice();
+        
         // Загружаем первый трек без автовоспроизведения
         if (tracks.length > 0) {
             loadTrack(0, false);
@@ -173,6 +176,161 @@ function toggleTheme() {
 }
 
 // Навигация
+// Мобильные функции
+function setupMobileMenu() {
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const sidebar = document.querySelector('.sidebar');
+    const mobileOverlay = document.getElementById('mobile-overlay');
+    
+    if (!mobileMenuToggle || !sidebar || !mobileOverlay) {
+        console.warn('Mobile menu elements not found');
+        return;
+    }
+    
+    // Открытие/закрытие мобильного меню
+    mobileMenuToggle.addEventListener('click', () => {
+        toggleMobileMenu();
+    });
+    
+    // Закрытие меню при клике на оверлей
+    mobileOverlay.addEventListener('click', () => {
+        closeMobileMenu();
+    });
+    
+    // Закрытие меню при клике на навигационный элемент
+    const navItems = sidebar.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                closeMobileMenu();
+            }
+        });
+    });
+    
+    // Закрытие меню при изменении размера экрана
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+            closeMobileMenu();
+        }
+        // Переадаптация интерфейса при изменении размера
+        adaptInterfaceForDevice();
+    });
+    
+    // Обработка свайпов для мобильного меню
+    setupMobileSwipes();
+}
+
+function toggleMobileMenu() {
+    const sidebar = document.querySelector('.sidebar');
+    const mobileOverlay = document.getElementById('mobile-overlay');
+    
+    if (sidebar.classList.contains('mobile-open')) {
+        closeMobileMenu();
+    } else {
+        openMobileMenu();
+    }
+}
+
+function openMobileMenu() {
+    const sidebar = document.querySelector('.sidebar');
+    const mobileOverlay = document.getElementById('mobile-overlay');
+    
+    sidebar.classList.add('mobile-open');
+    mobileOverlay.style.display = 'block';
+    setTimeout(() => {
+        mobileOverlay.classList.add('active');
+    }, 10);
+    
+    // Предотвращаем прокрутку фона
+    document.body.style.overflow = 'hidden';
+}
+
+function closeMobileMenu() {
+    const sidebar = document.querySelector('.sidebar');
+    const mobileOverlay = document.getElementById('mobile-overlay');
+    
+    sidebar.classList.remove('mobile-open');
+    mobileOverlay.classList.remove('active');
+    
+    setTimeout(() => {
+        mobileOverlay.style.display = 'none';
+    }, 300);
+    
+    // Восстанавливаем прокрутку фона
+    document.body.style.overflow = '';
+}
+
+function setupMobileSwipes() {
+    let startX = 0;
+    let startY = 0;
+    let isSwipeActive = false;
+    
+    document.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        isSwipeActive = true;
+    });
+    
+    document.addEventListener('touchmove', (e) => {
+        if (!isSwipeActive) return;
+        
+        const currentX = e.touches[0].clientX;
+        const currentY = e.touches[0].clientY;
+        const diffX = currentX - startX;
+        const diffY = currentY - startY;
+        
+        // Проверяем, что это горизонтальный свайп
+        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+            if (diffX > 0 && startX < 50 && window.innerWidth <= 768) {
+                // Свайп вправо от левого края - открываем меню
+                openMobileMenu();
+                isSwipeActive = false;
+            } else if (diffX < -50) {
+                // Свайп влево - закрываем меню
+                const sidebar = document.querySelector('.sidebar');
+                if (sidebar.classList.contains('mobile-open')) {
+                    closeMobileMenu();
+                    isSwipeActive = false;
+                }
+            }
+        }
+    });
+    
+    document.addEventListener('touchend', () => {
+        isSwipeActive = false;
+    });
+}
+
+// Функция для определения мобильного устройства
+function isMobileDevice() {
+    return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+// Функция для адаптации интерфейса под устройство
+function adaptInterfaceForDevice() {
+    const isMobile = isMobileDevice();
+    const playerContainer = document.querySelector('.player-container');
+    const mainContent = document.querySelector('.main-content');
+    
+    if (isMobile) {
+        // Добавляем отступ снизу для мобильного плеера
+        if (mainContent) {
+            mainContent.style.paddingBottom = '120px';
+        }
+        
+        // Оптимизируем размеры кнопок для сенсорного управления
+        const controlBtns = document.querySelectorAll('.control-btn');
+        controlBtns.forEach(btn => {
+            btn.style.minHeight = '44px';
+            btn.style.minWidth = '44px';
+        });
+    } else {
+        if (mainContent) {
+            mainContent.style.paddingBottom = '';
+        }
+    }
+}
+
 function setupNavigation() {
     const navItems = document.querySelectorAll('.nav-item');
     const pageSections = document.querySelectorAll('.page-section');
@@ -707,6 +865,9 @@ function formatTime(seconds) {
 function setupEventListeners() {
     // Навигация
     setupNavigation();
+    
+    // Мобильное меню
+    setupMobileMenu();
     
     // Проверяем существование элементов плеера
     if (!playPauseBtn || !prevBtn || !nextBtn) {
