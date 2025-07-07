@@ -1420,7 +1420,222 @@ body {
 
 
 
-/* Адаптивность для мобильных устройств */
+/* Адаптивность для высоких мобильных экранов */
+@media (max-width: 768px) and (min-height: 1200px) {
+    .app-container {
+        grid-template-rows: auto 1fr auto;
+        height: 100vh;
+    }
+    
+    .main-header {
+        padding: 1rem;
+        padding-left: 3.5rem;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        backdrop-filter: blur(10px);
+        background: rgba(var(--bg-color-rgb), 0.95);
+    }
+    
+    .content-area {
+        padding: 1rem;
+        overflow-y: auto;
+        flex: 1;
+        max-height: calc(100vh - 160px);
+    }
+    
+    .music-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding-bottom: 2rem;
+    }
+    
+    .music-card {
+        padding: 1.5rem;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        min-height: 80px;
+    }
+    
+    .card-image {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        flex-shrink: 0;
+    }
+    
+    .music-card-info {
+        flex: 1;
+        min-width: 0;
+    }
+    
+    .music-card-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+        line-height: 1.3;
+    }
+    
+    .music-card-artist {
+        font-size: 0.95rem;
+        opacity: 0.8;
+        line-height: 1.2;
+    }
+    
+    .music-card-actions {
+        display: flex;
+        gap: 0.5rem;
+        flex-shrink: 0;
+    }
+    
+    .player {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        backdrop-filter: blur(15px);
+        background: rgba(var(--bg-color-rgb), 0.95);
+        border-top: 1px solid var(--border-color);
+    }
+    
+    .player-content {
+        padding: 1rem;
+        gap: 1rem;
+        flex-direction: column;
+        max-width: 100%;
+    }
+    
+    .player-info {
+        order: 1;
+        text-align: center;
+        padding: 0.5rem 0;
+    }
+    
+    .track-name {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: unset;
+        max-width: none;
+        line-height: 1.3;
+    }
+    
+    .track-artist {
+        font-size: 0.95rem;
+        opacity: 0.8;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: unset;
+        max-width: none;
+        line-height: 1.2;
+    }
+    
+    .player-controls {
+        order: 2;
+        justify-content: center;
+        gap: 1.5rem;
+        padding: 0.5rem 0;
+    }
+    
+    .control-btn {
+        width: 48px;
+        height: 48px;
+        font-size: 1.2rem;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+    }
+    
+    .play-btn {
+        width: 64px;
+        height: 64px;
+        font-size: 1.8rem;
+    }
+    
+    .player-actions {
+        order: 3;
+        justify-content: center;
+        gap: 1rem;
+        padding: 0.5rem 0;
+    }
+    
+    .progress-container {
+        order: 4;
+        margin: 0.5rem 0;
+    }
+    
+    .progress-bar {
+        height: 6px;
+        border-radius: 3px;
+    }
+    
+    .volume-container {
+        order: 5;
+        max-width: 200px;
+        margin: 0 auto;
+    }
+    
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 280px;
+        z-index: 200;
+        background: var(--bg-color);
+        border-right: 1px solid var(--border-color);
+        overflow-y: auto;
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .mobile-menu-toggle {
+        display: block;
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 300;
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .modal-content {
+        width: 95%;
+        max-width: 400px;
+        margin: 2rem auto;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+    
+    .search-container {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    
+    .search-container input {
+        width: 100%;
+        padding: 1rem;
+        font-size: 1rem;
+        border-radius: 12px;
+    }
+}
+
+/* Адаптивность для стандартных мобильных устройств */
 @media (max-width: 480px) {
     .mobile-menu-toggle {
         display: block;
