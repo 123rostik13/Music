@@ -1316,8 +1316,234 @@ body {
     100% { transform: scale(1); }
 }
 
+/* Мобильная кнопка меню */
+.mobile-menu-toggle {
+    display: none;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1000;
+    background: var(--accent-primary);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    font-size: 1.25rem;
+    cursor: pointer;
+    box-shadow: var(--shadow-medium);
+    transition: all 0.3s ease;
+}
+
+.mobile-menu-toggle:hover {
+    background: var(--accent-secondary);
+    transform: scale(1.05);
+}
+
+/* Мобильный оверлей */
+.mobile-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 15;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.mobile-overlay.active {
+    opacity: 1;
+}
+
+/* Адаптивность для планшетов */
+@media (max-width: 1024px) {
+    .app-container {
+        grid-template-columns: 250px 1fr;
+    }
+    
+    .sidebar {
+        padding: 1rem;
+    }
+    
+    .main-header {
+        padding: 1rem 1.5rem;
+    }
+    
+    .search-container {
+        width: 250px;
+    }
+    
+    .music-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+    
+    .player-content {
+        padding: 1rem 1.5rem;
+    }
+}
+
 /* Адаптивность для мобильных устройств */
 @media (max-width: 768px) {
+    .mobile-menu-toggle {
+        display: block;
+    }
+    
+    .app-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr auto;
+    }
+    
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 280px;
+        height: 100vh;
+        z-index: 20;
+        transition: left 0.3s ease;
+        box-shadow: var(--shadow-heavy);
+    }
+    
+    .sidebar.mobile-open {
+        left: 0;
+    }
+    
+    .main-content {
+        margin-left: 0;
+    }
+    
+    .main-header {
+        padding: 1rem;
+        padding-left: 4rem;
+    }
+    
+    .header-content {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+    
+    .header-content h1 {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+    
+    .search-container {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    
+    .content-area {
+        padding: 1rem;
+    }
+    
+    .welcome-section {
+        text-align: center;
+        padding: 2rem 1rem;
+    }
+    
+    .welcome-section h2 {
+        font-size: 1.5rem;
+    }
+    
+    .music-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .music-card {
+        flex-direction: row;
+        align-items: center;
+        padding: 1rem;
+    }
+    
+    .music-card .card-image {
+        width: 60px;
+        height: 60px;
+        margin-right: 1rem;
+        margin-bottom: 0;
+    }
+    
+    .music-card .card-content {
+        flex: 1;
+        text-align: left;
+    }
+    
+    .music-card .card-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-left: 1rem;
+    }
+    
+    .player-container {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+    
+    .player-content {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .player-info {
+        text-align: center;
+    }
+    
+    .player-controls {
+        order: 2;
+    }
+    
+    .control-buttons {
+        justify-content: center;
+        gap: 1.5rem;
+    }
+    
+    .progress-container {
+        margin-top: 1rem;
+    }
+    
+    .player-actions {
+        order: 3;
+        justify-content: center;
+        gap: 1rem;
+    }
+    
+    .volume-control {
+        display: none;
+    }
+    
+    .search-filters {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .filter-group {
+        width: 100%;
+    }
+    
+    .playlists-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .playlists-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal-content {
+        margin: 1rem;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+    
     .track-stats {
         margin-top: 0.25rem;
     }
@@ -1345,6 +1571,72 @@ body {
         flex-direction: column;
         align-items: flex-start;
         gap: 0.5rem;
+    }
+}
+
+/* Адаптивность для маленьких мобильных устройств */
+@media (max-width: 480px) {
+    .main-header {
+        padding: 0.75rem;
+        padding-left: 3.5rem;
+    }
+    
+    .header-content h1 {
+        font-size: 1.25rem;
+    }
+    
+    .sidebar {
+        width: 100%;
+        left: -100%;
+    }
+    
+    .sidebar.mobile-open {
+        left: 0;
+    }
+    
+    .content-area {
+        padding: 0.75rem;
+    }
+    
+    .welcome-section {
+        padding: 1.5rem 0.75rem;
+    }
+    
+    .welcome-section h2 {
+        font-size: 1.25rem;
+    }
+    
+    .music-card {
+        padding: 0.75rem;
+    }
+    
+    .music-card .card-image {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .control-buttons {
+        gap: 1rem;
+    }
+    
+    .control-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .play-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.25rem;
+    }
+    
+    .player-content {
+        padding: 0.75rem;
+    }
+    
+    .modal-content {
+        margin: 0.5rem;
     }
 }
 
