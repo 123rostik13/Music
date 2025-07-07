@@ -640,20 +640,162 @@ body {
     line-height: 1.4;
 }
 
-/* Для десктопа сохраняем обрезку текста */
-@media (min-width: 769px) {
+/* Адаптивность для больших планшетов и маленьких десктопов */
+@media (min-width: 1025px) and (max-width: 1199px) {
+    .app-container {
+        grid-template-columns: 280px 1fr;
+    }
+    
+    .music-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .player-content {
+        padding: 1.5rem 2rem;
+        gap: 2.5rem;
+    }
+    
     .track-name {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        max-width: 200px;
+        max-width: 220px;
     }
     
     .track-artist {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        max-width: 200px;
+        max-width: 220px;
+    }
+}
+
+/* Адаптивность для стандартных десктопов */
+@media (min-width: 1200px) and (max-width: 1439px) {
+    .app-container {
+        grid-template-columns: 300px 1fr;
+    }
+    
+    .music-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 2rem;
+    }
+    
+    .player-content {
+        padding: 2rem;
+        gap: 3rem;
+    }
+    
+    .track-name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 250px;
+    }
+    
+    .track-artist {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 250px;
+    }
+}
+
+/* Адаптивность для больших мониторов */
+@media (min-width: 1440px) and (max-width: 1919px) {
+    .app-container {
+        grid-template-columns: 320px 1fr;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    
+    .music-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+    
+    .player-content {
+        padding: 2rem 3rem;
+        gap: 3rem;
+    }
+    
+    .track-name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 280px;
+    }
+    
+    .track-artist {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 280px;
+    }
+}
+
+/* Адаптивность для очень широких экранов */
+@media (min-width: 1920px) {
+    .app-container {
+        grid-template-columns: 350px 1fr;
+        max-width: 1600px;
+        margin: 0 auto;
+    }
+    
+    .music-grid {
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 2.5rem;
+    }
+    
+    .player-content {
+        padding: 2.5rem 4rem;
+        gap: 4rem;
+    }
+    
+    .sidebar {
+        padding: 2rem;
+    }
+    
+    .main-header {
+        padding: 2rem 3rem;
+    }
+    
+    .content-area {
+        padding: 2rem 3rem;
+    }
+    
+    .track-name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 300px;
+        font-size: 1rem;
+    }
+    
+    .track-artist {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 300px;
+        font-size: 0.875rem;
+    }
+}
+
+/* Для мобильных устройств убираем обрезку текста */
+@media (max-width: 768px) {
+    .track-name {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: unset;
+        max-width: none;
+    }
+    
+    .track-artist {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: unset;
+        max-width: none;
     }
 }
 
@@ -1416,22 +1558,109 @@ body {
     opacity: 1;
 }
 
-/* Адаптивность для планшетов */
-@media (max-width: 1024px) {
+/* Адаптивность для очень маленьких экранов */
+@media (max-width: 320px) {
+    .app-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .main-header {
+        padding: 0.5rem;
+        padding-left: 3rem;
+    }
+    
+    .header-content h1 {
+        font-size: 1rem;
+    }
+    
+    .music-card {
+        padding: 0.75rem;
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .music-card .card-image {
+        width: 40px;
+        height: 40px;
+        margin: 0 auto 0.5rem;
+    }
+    
+    .music-card-title {
+        font-size: 0.875rem;
+    }
+    
+    .music-card-artist {
+        font-size: 0.75rem;
+    }
+    
+    .control-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 0.875rem;
+    }
+    
+    .play-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1rem;
+    }
+    
+    .player-content {
+        padding: 0.5rem;
+        gap: 0.5rem;
+    }
+    
+    .track-name {
+        font-size: 0.875rem;
+    }
+    
+    .track-artist {
+        font-size: 0.75rem;
+    }
+}
+
+/* Адаптивность для средних планшетов */
+@media (min-width: 769px) and (max-width: 1024px) {
     .app-container {
         grid-template-columns: 250px 1fr;
     }
     
-    .sidebar {
-        padding: 1rem;
+    .music-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 1.25rem;
     }
     
-    .main-header {
-        padding: 1rem 1.5rem;
+    .player-content {
+        padding: 1.25rem 1.5rem;
+        gap: 2rem;
     }
     
-    .search-container {
-        width: 250px;
+    .track-name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 180px;
+    }
+    
+    .track-artist {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 180px;
+    }
+    
+    .modal-content {
+        width: 85%;
+        max-width: 600px;
+    }
+}
+
+
+
+/* Адаптивность для маленьких планшетов */
+@media (min-width: 481px) and (max-width: 768px) {
+    .app-container {
+        grid-template-columns: 1fr;
     }
     
     .music-grid {
@@ -1439,13 +1668,38 @@ body {
         gap: 1rem;
     }
     
+    .music-card {
+        padding: 1rem;
+    }
+    
     .player-content {
-        padding: 1rem 1.5rem;
+        padding: 1rem;
+        gap: 1.5rem;
+        flex-direction: column;
+    }
+    
+    .player-controls {
+        order: 1;
+    }
+    
+    .player-info {
+        order: 2;
+        text-align: center;
+    }
+    
+    .player-actions {
+        order: 3;
+        justify-content: center;
+    }
+    
+    .modal-content {
+        width: 90%;
+        max-width: 500px;
     }
 }
 
 /* Адаптивность для мобильных устройств */
-@media (max-width: 768px) {
+@media (max-width: 480px) {
     .mobile-menu-toggle {
         display: block;
     }
