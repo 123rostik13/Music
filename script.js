@@ -485,8 +485,30 @@ function createMusicCard(track, index) {
     `;
 
     // Event listeners
+    const playPauseIndicator = card.querySelector('.play-pause-indicator');
+    playPauseIndicator.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (currentTrackIndex === index) {
+            // Если это текущий трек, переключаем воспроизведение/паузу
+            if (isPlaying) {
+                audioPlayer.pause();
+                isPlaying = false;
+                playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+            } else {
+                playTrack();
+            }
+        } else {
+            // Если это другой трек, загружаем и воспроизводим его
+            loadTrack(index);
+        }
+        updateActiveCard();
+    });
+
+    // Клик на карточку только загружает трек без автовоспроизведения
     card.addEventListener('click', () => {
-        loadTrack(index);
+        if (currentTrackIndex !== index) {
+            loadTrack(index, false); // false = не автовоспроизведение
+        }
     });
 
     const likeBtn = card.querySelector('.like-btn');
