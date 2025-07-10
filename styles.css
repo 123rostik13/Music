@@ -606,6 +606,7 @@ body {
     padding: 1rem 2rem;
     position: relative;
     z-index: 10;
+    display: none; /* Скрыт по умолчанию, показывается только при запуске музыки */
 }
 
 .player-content {
