@@ -1055,6 +1055,24 @@ body {
     }
 }
 
+/* Скрытие элементов на мобильных устройствах */
+.desktop-only {
+    display: flex;
+}
+
+.mobile-only {
+    display: none;
+}
+
+/* Стили для мобильной кнопки избранного */
+.favorite-btn-mobile.active {
+    color: var(--accent-danger);
+}
+
+.favorite-btn-mobile.active i {
+    color: var(--accent-danger);
+}
+
 @media (max-width: 768px) {
     .music-grid {
         grid-template-columns: 1fr;
@@ -2188,6 +2206,15 @@ body {
     
     .review-btn {
         padding: 0.375rem;
+    }
+    
+    /* Скрываем кнопку избранного на мобильных устройствах */
+    .desktop-only {
+        display: none;
+    }
+    
+    .mobile-only {
+        display: flex;
     }
     
     .review-modal-content {
