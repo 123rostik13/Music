@@ -463,7 +463,7 @@ function createMusicCard(track, index) {
                 <i class="${isLiked ? 'fas' : 'far'} fa-heart"></i>
                 <span class="like-count">${totalLikes}</span>
             </button>
-            <button class="action-btn review-btn" title="Оставить отзыв">
+            <button class="action-btn review-btn desktop-only" title="Оставить отзыв">
                 <i class="fas fa-star"></i>
             </button>
             <button class="action-btn favorite ${isFavorite ? 'active' : ''} desktop-only" title="Добавить в избранное">
@@ -477,6 +477,7 @@ function createMusicCard(track, index) {
                 <div class="more-actions-menu">
                     <button class="menu-item add-playlist-btn"><i class="fas fa-plus"></i> Добавить в плейлист</button>
                     <button class="menu-item download-btn"><i class="fas fa-download"></i> Скачать</button>
+                    <button class="menu-item review-btn-mobile"><i class="fas fa-star"></i> Оставить отзыв</button>
                     <button class="menu-item favorite-btn-mobile ${isFavorite ? 'active' : ''}"><i class="fas fa-heart"></i> ${isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}</button>
                 </div>
             </div>
@@ -534,6 +535,13 @@ function createMusicCard(track, index) {
         link.download = `${track.artist} - ${track.title}.mp3`;
         link.click();
         showNotification('Начинается скачивание...', 'success');
+        moreMenu.classList.remove('active');
+    });
+
+    const reviewBtnMobile = card.querySelector('.review-btn-mobile');
+    reviewBtnMobile.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openReviewModal(track.id);
         moreMenu.classList.remove('active');
     });
 
