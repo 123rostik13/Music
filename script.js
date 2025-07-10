@@ -466,7 +466,7 @@ function createMusicCard(track, index) {
             <button class="action-btn review-btn" title="Оставить отзыв">
                 <i class="fas fa-star"></i>
             </button>
-            <button class="action-btn favorite ${isFavorite ? 'active' : ''}">
+            <button class="action-btn favorite ${isFavorite ? 'active' : ''} desktop-only" title="Добавить в избранное">
                 <i class="fas fa-heart"></i>
             </button>
             <span class="track-duration">${track.duration}</span>
@@ -477,6 +477,7 @@ function createMusicCard(track, index) {
                 <div class="more-actions-menu">
                     <button class="menu-item add-playlist-btn"><i class="fas fa-plus"></i> Добавить в плейлист</button>
                     <button class="menu-item download-btn"><i class="fas fa-download"></i> Скачать</button>
+                    <button class="menu-item favorite-btn-mobile ${isFavorite ? 'active' : ''}"><i class="fas fa-heart"></i> ${isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}</button>
                 </div>
             </div>
         </div>
@@ -534,6 +535,18 @@ function createMusicCard(track, index) {
         link.click();
         showNotification('Начинается скачивание...', 'success');
         moreMenu.classList.remove('active');
+    });
+
+    const favoriteBtnMobile = card.querySelector('.favorite-btn-mobile');
+    favoriteBtnMobile.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleFavorite(track.id);
+        moreMenu.classList.remove('active');
+        
+        // Обновляем текст кнопки
+        const isFavoriteNow = favorites.includes(track.id);
+        favoriteBtnMobile.innerHTML = `<i class="fas fa-heart"></i> ${isFavoriteNow ? 'Удалить из избранного' : 'Добавить в избранное'}`;
+        favoriteBtnMobile.classList.toggle('active', isFavoriteNow);
     });
     
     return card;
