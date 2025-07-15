@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Музыкальный Портал</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Боковая панель -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-music"></i>
+                    <span>Музыка</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-section="home">
+                    <i class="fas fa-home"></i>
+                    <span>Главная</span>
+                </a>
+                <a href="#" class="nav-item" data-section="search">
+                    <i class="fas fa-search"></i>
+                    <span>Поиск</span>
+                </a>
+                <a href="#" class="nav-item" data-section="playlists">
+                    <i class="fas fa-list"></i>
+                    <span>Плейлисты</span>
+                </a>
+                <a href="#" class="nav-item" data-section="favorites">
+                    <i class="fas fa-heart"></i>
+                    <span>Избранное</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button class="theme-toggle" id="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="social-section">
+                    <h4 class="social-title">Соцсети</h4>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-telegram-plane"></i>
+                        <span>Telegram</span>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Мобильная кнопка меню -->
+        <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Основной контент -->
+        <main class="main-content">
+            <!-- Заголовок -->
+            <header class="main-header">
+                <div class="header-content">
+                    <h1 id="page-title">Главная</h1>
+                    <div class="header-actions">
+                        <div class="search-container">
+                            <input type="text" id="search-input" placeholder="Поиск музыки...">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Контент страниц -->
+            <div class="content-area">
+                <!-- Главная страница -->
+                <section id="home-section" class="page-section active">
+                    <div class="welcome-section">
+                        <h2>Добро пожаловать в мир музыки</h2>
+                        <p>Откройте для себя новые треки и создавайте свои плейлисты</p>
+                    </div>
+                    
+                    <div class="music-grid" id="music-grid">
+                        <!-- Треки будут добавлены через JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Страница поиска -->
+                <section id="search-section" class="page-section">
+                    <div class="search-filters">
+                        <div class="filter-group">
+                            <label>Жанр:</label>
+                            <select id="genre-filter">
+                                <option value="">Все жанры</option>
+                                <option value="rock">Рок</option>
+                                <option value="pop">Поп</option>
+                                <option value="electronic">Электроника</option>
+                                <option value="folk">Фолк</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Год:</label>
+                            <select id="year-filter">
+                                <option value="">Все годы</option>
+                                <option value="2024">2024</option>
+                                <option value="2023">2023</option>
+                                <option value="2022">2022</option>
+                                <option value="2021">2021</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="search-results" id="search-results">
+                        <!-- Результаты поиска -->
+                    </div>
+                </section>
+
+                <!-- Страница плейлистов -->
+                <section id="playlists-section" class="page-section">
+                    <div class="playlists-header">
+                        <h2>Мои плейлисты</h2>
+                        <button class="btn btn-primary" id="create-playlist">
+                            <i class="fas fa-plus"></i>
+                            Создать плейлист
+                        </button>
+                    </div>
+                    
+                    <div class="playlists-grid" id="playlists-grid">
+                        <!-- Плейлисты будут добавлены через JavaScript -->
+                    </div>
+                </section>
+                
+                <!-- Страница содержимого плейлиста -->
+                <section id="playlist-content-section" class="page-section">
+                    <div class="playlist-content-header">
+                        <button class="btn btn-secondary back-to-playlists-btn" id="back-to-playlists-btn">
+                            <i class="fas fa-arrow-left"></i>
+                            Назад к плейлистам
+                        </button>
+                        <h2 id="current-playlist-name">Название плейлиста</h2>
+                        <p id="current-playlist-description" class="playlist-description">Описание плейлиста</p>
+                    </div>
+                    
+                    <div class="playlist-tracks" id="playlist-tracks">
+                        <!-- Треки плейлиста будут добавлены через JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Страница избранного -->
+                <section id="favorites-section" class="page-section">
+                    <h2>Избранные треки</h2>
+                    <div class="favorites-list" id="favorites-list">
+                        <!-- Избранные треки -->
+                    </div>
+                </section>
+                
+                <!-- Страница содержимого плейлиста -->
+                <section id="playlist-content-section" class="page-section">
+                    <div class="playlist-content-header">
+                        <button class="back-button" id="back-to-playlists-btn">
+                            <i class="fas fa-arrow-left"></i> Назад к плейлистам
+                        </button>
+                        <h2 id="current-playlist-name">Название плейлиста</h2>
+                        <p id="current-playlist-description" class="playlist-description">Описание плейлиста</p>
+                    </div>
+                    <div class="playlist-tracks" id="playlist-tracks">
+                        <!-- Треки плейлиста будут добавлены через JavaScript -->
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Плеер -->
+        <div class="player-container">
+            <div class="player-content">
+                <div class="player-info">
+                    <div class="track-details">
+                        <div class="track-name" id="current-track-name">Выберите трек</div>
+                        <div class="track-artist" id="current-track-artist">-</div>
+                    </div>
+                </div>
+                
+                <div class="player-controls">
+                    <div class="control-buttons">
+                        <button class="control-btn" id="shuffle">
+                            <i class="fas fa-random"></i>
+                        </button>
+                        <button class="control-btn" id="prev">
+                            <i class="fas fa-step-backward"></i>
+                        </button>
+                        <button class="control-btn play-btn" id="play-pause">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button class="control-btn" id="next">
+                            <i class="fas fa-step-forward"></i>
+                        </button>
+                        <button class="control-btn" id="repeat">
+                            <i class="fas fa-redo"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <span class="time current-time" id="current-time">0:00</span>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="progress-bar">
+                                <div class="progress-fill" id="progress-fill"></div>
+                            </div>
+                        </div>
+                        <span class="time total-time" id="total-time">0:00</span>
+                    </div>
+                </div>
+                
+                <div class="player-actions">
+                    <div class="volume-control">
+                        <i class="fas fa-volume-up"></i>
+                        <input type="range" id="volume" min="0" max="1" step="0.1" value="0.7">
+                    </div>
+                    <button class="control-btn" id="favorite-btn">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <button class="control-btn" id="download-btn">
+                        <i class="fas fa-download"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальные окна -->
+    <div class="modal" id="playlist-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Создать плейлист</h3>
+                <button class="modal-close" id="close-playlist-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="playlist-name" placeholder="Название плейлиста">
+                <textarea id="playlist-description" placeholder="Описание (необязательно)"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancel-playlist">Отмена</button>
+                <button class="btn btn-primary" id="save-playlist">Создать</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для выбора плейлиста -->
+    <div class="modal" id="select-playlist-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Добавить в плейлист</h3>
+                <button class="modal-close" id="close-select-playlist-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="select-playlist-track-info" class="track-info-container">
+                    <h4 id="select-playlist-track-name">Название трека</h4>
+                    <p id="select-playlist-track-artist">Исполнитель</p>
+                </div>
+                <div id="playlists-list" class="playlists-select-list">
+                    <!-- Здесь будет список плейлистов -->
+                </div>
+                <div class="no-playlists-message" id="no-playlists-message">
+                    <p>У вас пока нет плейлистов. Создайте новый плейлист!</p>
+                    <button class="btn btn-primary" id="create-new-playlist-btn">Создать плейлист</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для отзывов -->
+    <div class="modal" id="review-modal">
+        <div class="modal-content review-modal-content">
+            <div class="modal-header">
+                <h3>Оставить отзыв</h3>
+                <button class="modal-close" id="close-review-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="review-track-info">
+                    <h4 id="review-track-name">Название трека</h4>
+                    <p id="review-track-artist">Исполнитель</p>
+                </div>
+                
+                <div class="review-form">
+                    <div class="form-group">
+                        <label for="review-rating">Оценка:</label>
+                        <select id="review-rating" class="rating-select">
+                            <option value="5">5 - Отлично</option>
+                            <option value="4">4 - Хорошо</option>
+                            <option value="3">3 - Удовлетворительно</option>
+                            <option value="2">2 - Плохо</option>
+                            <option value="1">1 - Очень плохо</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="review-comment">Комментарий:</label>
+                        <textarea id="review-comment" placeholder="Поделитесь своими впечатлениями о треке..." rows="4"></textarea>
+                    </div>
+                </div>
+                
+                <div class="reviews-section">
+                    <h4>Отзывы других пользователей</h4>
+                    <div id="reviews-list" class="reviews-list">
+                        <!-- Отзывы будут добавлены через JavaScript -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancel-review">Отмена</button>
+                <button class="btn btn-primary" id="save-review">Оставить отзыв</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Мобильный оверлей -->
+    <div class="mobile-overlay" id="mobile-overlay"></div>
+
+    <!-- Контейнер для уведомлений -->
+    <div id="notifications" class="notifications"></div>
+
+    <!-- Аудио элемент -->
+    <audio id="audio-player" preload="metadata"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
